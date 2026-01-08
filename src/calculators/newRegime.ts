@@ -13,11 +13,9 @@ const NEW_TAX_BRACKETS: TaxBracket[] = [
 const RENT_RELIEF_CAP = 500000; // ₦500,000 cap on rent relief
 
 export function calculateNewRegimeTax(inputs: TaxInputs): TaxCalculationResult {
-  const { annualGrossIncome, annualRentPaid, taxesAlreadyPaid } = inputs;
+  const { annualGrossIncome, annualRentPaid, taxesAlreadyPaid, pensionDeduction, nhfDeduction } = inputs;
 
-  // Calculate automatic deductions
-  const pensionDeduction = annualGrossIncome * 0.08; // 8% pension
-  const nhfDeduction = annualGrossIncome * 0.025; // 2.5% NHF
+  // Use manual deductions from inputs
   const totalAutoDeductions = pensionDeduction + nhfDeduction;
 
   // Calculate Rent Relief (20% of annual rent paid, capped at ₦500,000)

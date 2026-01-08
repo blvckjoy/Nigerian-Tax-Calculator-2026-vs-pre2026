@@ -10,6 +10,8 @@ export default function TaxInputForm({ onCalculate }: TaxInputFormProps) {
   const [annualRentPaid, setAnnualRentPaid] = useState('');
   const [taxesAlreadyPaid, setTaxesAlreadyPaid] = useState('');
   const [monthlySalary, setMonthlySalary] = useState('');
+  const [pensionDeduction, setPensionDeduction] = useState('');
+  const [nhfDeduction, setNhfDeduction] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const formatCurrency = (value: string): string => {
@@ -27,9 +29,19 @@ export default function TaxInputForm({ onCalculate }: TaxInputFormProps) {
 
     const newErrors: Record<string, string> = {};
     const grossIncome = parseCurrency(annualGrossIncome);
+    const pension = parseCurrency(pensionDeduction);
+    const nhf = parseCurrency(nhfDeduction);
 
     if (grossIncome <= 0) {
       newErrors.annualGrossIncome = 'Please enter a valid annual gross income';
+    }
+
+    if (pension < 0) {
+      newErrors.pensionDeduction = 'Please enter a valid pension deduction';
+    }
+
+    if (nhf < 0) {
+      newErrors.nhfDeduction = 'Please enter a valid NHF deduction';
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -42,6 +54,8 @@ export default function TaxInputForm({ onCalculate }: TaxInputFormProps) {
       annualGrossIncome: grossIncome,
       annualRentPaid: parseCurrency(annualRentPaid),
       taxesAlreadyPaid: parseCurrency(taxesAlreadyPaid),
+      pensionDeduction: pension,
+      nhfDeduction: nhf,
     });
   };
 
@@ -110,6 +124,58 @@ export default function TaxInputForm({ onCalculate }: TaxInputFormProps) {
         </p>
       </div>
 
+      {/* Pension Deduction */}
+      <div>
+        <label htmlFor="pensionDeduction" className="block text-sm font-semibold text-gray-700 mb-2">
+          Pension Deduction <span className="text-gray-400 font-normal">(Optional)</span>
+        </label>
+        <div className="relative">
+          <span className="absolute left-3 top-3 text-gray-500 font-medium">₦</span>
+          <input
+            type="text"
+            id="pensionDeduction"
+            value={pensionDeduction}
+            onChange={(e) => setPensionDeduction(formatCurrency(e.target.value))}
+            className={`w-full pl-8 pr-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.pensionDeduction ? 'border-red-500' : 'border-gray-300'
+            }`}
+            placeholder="0"
+          />
+        </div>
+        {errors.pensionDeduction && (
+          <p className="mt-1 text-sm text-red-600">{errors.pensionDeduction}</p>
+        )}
+        <p className="mt-1 text-xs text-gray-500">
+          Your annual pension contribution (commonly 8% of gross income)
+        </p>
+      </div>
+
+      {/* NHF Deduction */}
+      <div>
+        <label htmlFor="nhfDeduction" className="block text-sm font-semibold text-gray-700 mb-2">
+          NHF Deduction <span className="text-gray-400 font-normal">(Optional)</span>
+        </label>
+        <div className="relative">
+          <span className="absolute left-3 top-3 text-gray-500 font-medium">₦</span>
+          <input
+            type="text"
+            id="nhfDeduction"
+            value={nhfDeduction}
+            onChange={(e) => setNhfDeduction(formatCurrency(e.target.value))}
+            className={`w-full pl-8 pr-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.nhfDeduction ? 'border-red-500' : 'border-gray-300'
+            }`}
+            placeholder="0"
+          />
+        </div>
+        {errors.nhfDeduction && (
+          <p className="mt-1 text-sm text-red-600">{errors.nhfDeduction}</p>
+        )}
+        <p className="mt-1 text-xs text-gray-500">
+          Your annual NHF contribution (commonly 2.5% of gross income)
+        </p>
+      </div>
+
       {/* Annual Rent Paid */}
       <div>
         <label htmlFor="rentPaid" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -166,8 +232,8 @@ export default function TaxInputForm({ onCalculate }: TaxInputFormProps) {
           </div>
           <div className="ml-3">
             <p className="text-sm text-blue-700">
-              <strong>Automatic deductions:</strong> Pension (8%) and NHF (2.5%) are automatically
-              calculated from your gross income.
+              <strong>Deductions:</strong> Enter your pension and NHF contributions manually. If left blank,
+              they will be treated as zero. Standard rates are 8% for pension and 2.5% for NHF.
             </p>
           </div>
         </div>

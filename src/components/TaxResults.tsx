@@ -55,6 +55,82 @@ export default function TaxResults({ result }: TaxResultsProps) {
         </div>
       </div>
 
+      {/* Monthly Summary Comparison */}
+      <div className="bg-white rounded-lg shadow-xl p-6 border-2 border-blue-300">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">
+          Monthly Summary
+        </h2>
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Old Regime Monthly Summary */}
+          <div className="bg-gray-50 rounded-lg p-4 border-2 border-red-200">
+            <h4 className="font-semibold text-gray-800 mb-3 text-center">Old Regime (Pre-2026)</h4>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center pb-2 border-b">
+                <span className="text-gray-600">Monthly Salary:</span>
+                <span className="font-bold text-lg">{formatCurrency(oldRegime.grossIncome / 12)}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">Monthly Pension:</span>
+                <span className="text-red-600 font-semibold">-{formatCurrency(oldRegime.pensionDeduction / 12)}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">Monthly NHF:</span>
+                <span className="text-red-600 font-semibold">-{formatCurrency(oldRegime.nhfDeduction / 12)}</span>
+              </div>
+              <div className="flex justify-between items-center pb-2 border-b">
+                <span className="text-gray-600">Monthly PAYE Tax:</span>
+                <span className="text-red-600 font-bold text-lg">-{formatCurrency(oldRegime.monthlyTaxLiability)}</span>
+              </div>
+              <div className="flex justify-between items-center bg-green-50 p-3 rounded-lg border-2 border-green-300">
+                <span className="font-bold text-gray-800">Take-Home Pay:</span>
+                <span className="font-bold text-xl text-green-600">
+                  {formatCurrency(
+                    (oldRegime.grossIncome / 12) -
+                    (oldRegime.pensionDeduction / 12) -
+                    (oldRegime.nhfDeduction / 12) -
+                    oldRegime.monthlyTaxLiability
+                  )}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* New Regime Monthly Summary */}
+          <div className="bg-gray-50 rounded-lg p-4 border-2 border-green-200">
+            <h4 className="font-semibold text-gray-800 mb-3 text-center">New Regime (2026)</h4>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center pb-2 border-b">
+                <span className="text-gray-600">Monthly Salary:</span>
+                <span className="font-bold text-lg">{formatCurrency(newRegime.grossIncome / 12)}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">Monthly Pension:</span>
+                <span className="text-red-600 font-semibold">-{formatCurrency(newRegime.pensionDeduction / 12)}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-600">Monthly NHF:</span>
+                <span className="text-red-600 font-semibold">-{formatCurrency(newRegime.nhfDeduction / 12)}</span>
+              </div>
+              <div className="flex justify-between items-center pb-2 border-b">
+                <span className="text-gray-600">Monthly PAYE Tax:</span>
+                <span className="text-red-600 font-bold text-lg">-{formatCurrency(newRegime.monthlyTaxLiability)}</span>
+              </div>
+              <div className="flex justify-between items-center bg-green-50 p-3 rounded-lg border-2 border-green-300">
+                <span className="font-bold text-gray-800">Take-Home Pay:</span>
+                <span className="font-bold text-xl text-green-600">
+                  {formatCurrency(
+                    (newRegime.grossIncome / 12) -
+                    (newRegime.pensionDeduction / 12) -
+                    (newRegime.nhfDeduction / 12) -
+                    newRegime.monthlyTaxLiability
+                  )}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Side-by-Side Detailed Comparison */}
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Old Regime Details */}

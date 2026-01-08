@@ -11,11 +11,9 @@ const OLD_TAX_BRACKETS: TaxBracket[] = [
 ];
 
 export function calculateOldRegimeTax(inputs: TaxInputs): TaxCalculationResult {
-  const { annualGrossIncome, taxesAlreadyPaid } = inputs;
+  const { annualGrossIncome, taxesAlreadyPaid, pensionDeduction, nhfDeduction } = inputs;
 
-  // Calculate automatic deductions
-  const pensionDeduction = annualGrossIncome * 0.08; // 8% pension
-  const nhfDeduction = annualGrossIncome * 0.025; // 2.5% NHF
+  // Use manual deductions from inputs
   const totalAutoDeductions = pensionDeduction + nhfDeduction;
 
   // Calculate Consolidated Relief Allowance (CRA)

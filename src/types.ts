@@ -2,6 +2,8 @@ export interface TaxInputs {
   annualGrossIncome: number;
   annualRentPaid: number;
   taxesAlreadyPaid: number;
+  pensionDeduction: number;
+  nhfDeduction: number;
 }
 
 export interface TaxBracket {
