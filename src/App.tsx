@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import Disclaimer from './components/Disclaimer';
 import TaxInputForm from './components/TaxInputForm';
 import TaxResults from './components/TaxResults';
@@ -105,6 +106,7 @@ function App() {
           </p>
         </footer>
       </div>
+      <Analytics />
     </div>
   );
 }
