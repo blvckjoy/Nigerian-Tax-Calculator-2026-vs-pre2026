@@ -4,39 +4,44 @@ export default function Disclaimer() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="mb-8">
+    <div className="mb-10">
       {/* Prominent Warning Banner */}
-      <div className="bg-amber-50 border-l-4 border-amber-500 p-6 mb-4 shadow-lg">
-        <div className="flex items-start">
+      <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-300 rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow">
+        <div className="flex items-start gap-4">
           <div className="flex-shrink-0">
-            <svg
-              className="h-8 w-8 text-amber-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-              />
-            </svg>
+            <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center shadow-lg">
+              <svg
+                className="h-7 w-7 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+            </div>
           </div>
-          <div className="ml-4 flex-1">
-            <h3 className="text-xl font-bold text-amber-900 mb-2">
-              ⚠️ IMPORTANT DISCLAIMER
+          <div className="flex-1">
+            <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2 flex items-center gap-2">
+              Important Disclaimer
             </h3>
-            <p className="text-amber-800 font-semibold text-base leading-relaxed">
-              This calculator is for <span className="underline">informational and educational purposes only</span>.
-              It is <span className="underline font-bold">NOT professional tax advice</span>.
+            <p className="text-gray-700 text-sm md:text-base leading-relaxed mb-4">
+              This calculator is for <strong>informational and educational purposes only</strong>.
+              It is <strong className="text-red-600">NOT professional tax advice</strong>.
               Tax calculations may vary based on individual circumstances.
             </p>
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="mt-3 text-amber-700 hover:text-amber-900 font-semibold underline text-sm"
+              className="inline-flex items-center gap-2 text-sm md:text-base text-amber-700 hover:text-amber-900 font-semibold transition-colors group touch-manipulation"
             >
-              {isExpanded ? '▼ Hide full disclaimer' : '► Read full disclaimer and terms'}
+              <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`} fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+              </svg>
+              {isExpanded ? 'Hide full disclaimer' : 'Read full disclaimer and terms'}
             </button>
           </div>
         </div>
@@ -44,7 +49,7 @@ export default function Disclaimer() {
 
       {/* Expanded Disclaimer Section */}
       {isExpanded && (
-        <div className="bg-white border-2 border-amber-400 rounded-lg p-6 space-y-4 text-sm">
+        <div className="mt-4 bg-white border border-gray-200 rounded-2xl p-6 md:p-8 space-y-6 text-sm shadow-sm animate-fadeIn">
           <section>
             <h4 className="font-bold text-gray-900 text-base mb-2">📋 Purpose & Limitations</h4>
             <p className="text-gray-700 leading-relaxed">

@@ -1,10 +1,12 @@
-import type { ComparisonResult } from '../types';
+import type { ComparisonResult, TaxInputs } from '../types';
+import IncomeSlider from './IncomeSlider';
 
 interface TaxResultsProps {
   result: ComparisonResult;
+  originalInputs: TaxInputs;
 }
 
-export default function TaxResults({ result }: TaxResultsProps) {
+export default function TaxResults({ result, originalInputs }: TaxResultsProps) {
   const { oldRegime, newRegime, savings, savingsPercentage } = result;
 
   const formatCurrency = (amount: number): string => {
@@ -298,6 +300,9 @@ export default function TaxResults({ result }: TaxResultsProps) {
           </p>
         </div>
       </div>
+
+      {/* Income Slider */}
+      <IncomeSlider originalInputs={originalInputs} />
     </div>
   );
 }
