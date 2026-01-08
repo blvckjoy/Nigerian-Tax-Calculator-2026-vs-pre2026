@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import Disclaimer from './components/Disclaimer';
 import TaxInputForm from './components/TaxInputForm';
 import TaxResults from './components/TaxResults';
@@ -104,6 +105,8 @@ function App() {
             All calculations are performed locally in your browser. No data is stored or transmitted.
           </p>
         </footer>
+
+        <Analytics />
       </div>
     </div>
   );
