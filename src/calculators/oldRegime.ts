@@ -17,9 +17,11 @@ export function calculateOldRegimeTax(inputs: TaxInputs): TaxCalculationResult {
   const totalAutoDeductions = pensionDeduction + nhfDeduction;
 
   // Calculate Consolidated Relief Allowance (CRA)
-  // Greater of ₦200,000 or 21% of gross income (1% + 20%)
-  const percentageRelief = annualGrossIncome * 0.21;
-  const consolidatedReliefAllowance = Math.max(200000, percentageRelief);
+  // 1. Higher of ₦200,000 or 1% of gross income
+  // 2. Plus 20% of gross income
+  // 3. No rent relief in old regime
+  const craBase = Math.max(200000, annualGrossIncome * 0.01);
+  const consolidatedReliefAllowance = craBase + (annualGrossIncome * 0.20);
 
   // Calculate taxable income
   const taxableIncome = Math.max(
