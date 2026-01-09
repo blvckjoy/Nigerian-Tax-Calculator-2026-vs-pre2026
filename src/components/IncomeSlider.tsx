@@ -103,20 +103,20 @@ export default function IncomeSlider({ originalInputs }: IncomeSliderProps) {
         {/* Custom Slider Track */}
         <div className="relative h-2 rounded-full bg-white/10 mb-6">
           <div
-            className="absolute h-full rounded-full bg-gradient-to-r from-[#f0b429] to-[#d4940a]"
+            className="absolute h-full rounded-full bg-gradient-to-r from-[#f0b429] to-[#d4940a] transition-[width] duration-75 ease-out"
             style={{ width: `${sliderProgress}%` }}
           />
           <input
             type="range"
             min={minIncome}
             max={maxIncome}
-            step={100000}
+            step={10000}
             value={adjustedIncome}
             onChange={(e) => setAdjustedIncome(Number(e.target.value))}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           />
           <div
-            className="absolute top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-gradient-to-br from-[#f0b429] to-[#d4940a] border-4 border-[#0a0e17] shadow-lg shadow-[#f0b429]/30 pointer-events-none transition-all duration-150"
+            className="absolute top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-gradient-to-br from-[#f0b429] to-[#d4940a] border-4 border-[#0a0e17] shadow-lg shadow-[#f0b429]/30 pointer-events-none"
             style={{ left: `calc(${sliderProgress}% - 12px)` }}
           />
         </div>

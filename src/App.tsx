@@ -43,7 +43,7 @@ function App() {
           </div>
 
           {/* Main Title */}
-          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold mb-6 tracking-tight">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold mb-6 tracking-tight whitespace-nowrap">
             <span className="text-gradient-gold">Tax</span>
             <span className="text-white">Compare</span>
           </h1>

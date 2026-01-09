@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd manual pension/NHF inputs and monthly summary section\n\n- Replace automatic pension \\(8%\\) and NHF \\(2.5%\\) calculation with manual input fields\n- Update both tax regime calculators to use manual deduction values\n- Add comprehensive monthly summary showing salary, deductions, PAYE tax, and take-home pay\n- Update form info box to reflect manual input requirements\nEOF\n\\)\")",
+      "Bash(git push)",
+      "Skill(frontend-design)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}
