@@ -13,7 +13,8 @@ export default function TaxResults({ result, originalInputs }: TaxResultsProps) 
     return new Intl.NumberFormat('en-NG', {
       style: 'currency',
       currency: 'NGN',
-      minimumFractionDigits: 2,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(amount);
   };
 
@@ -22,261 +23,289 @@ export default function TaxResults({ result, originalInputs }: TaxResultsProps) 
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Two Column Layout: New Law vs Old Law */}
       <div className="grid lg:grid-cols-2 gap-6">
-
         {/* NEW LAW COLUMN */}
-        <div className="bg-white rounded-lg shadow-xl p-6 border-2 border-green-400">
+        <div className="glass-card-emerald rounded-2xl p-6 opacity-0 animate-slideInLeft" style={{ animationFillMode: 'forwards' }}>
           {/* Header */}
-          <div className="bg-green-600 text-white rounded-lg p-4 mb-6 text-center">
-            <h2 className="text-2xl font-bold">PAYE Calculation</h2>
-            <p className="text-lg mt-1">New Law (2026)</p>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#34d399] to-[#059669] flex items-center justify-center">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <h2 className="font-display text-xl font-bold text-white">New Law</h2>
+              <p className="text-sm text-[#34d399]">2026 Tax Reform</p>
+            </div>
           </div>
 
-          {/* Section 1: Income Breakdown */}
+          {/* Income Breakdown */}
           <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-4 pb-2 border-b-2 border-gray-300">
+            <h3 className="text-sm font-semibold text-[#94a3b8] uppercase tracking-wider mb-4">
               Income Breakdown
             </h3>
-            <div className="space-y-3 text-base">
+            <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-gray-700">Annual Gross Income:</span>
-                <span className="font-bold">{formatCurrency(newRegime.grossIncome)}</span>
+                <span className="text-[#94a3b8]">Annual Gross Income</span>
+                <span className="font-semibold text-white">{formatCurrency(newRegime.grossIncome)}</span>
               </div>
-              <div className="flex justify-between items-center pl-4">
-                <span className="text-gray-600">Less: Pension</span>
-                <span className="text-red-600 font-semibold">-{formatCurrency(newRegime.pensionDeduction)}</span>
+              <div className="flex justify-between items-center pl-4 border-l-2 border-[#34d399]/30">
+                <span className="text-[#64748b]">Less: Pension</span>
+                <span className="text-[#fb7185]">-{formatCurrency(newRegime.pensionDeduction)}</span>
               </div>
-              <div className="flex justify-between items-center pl-4">
-                <span className="text-gray-600">Less: NHF</span>
-                <span className="text-red-600 font-semibold">-{formatCurrency(newRegime.nhfDeduction)}</span>
+              <div className="flex justify-between items-center pl-4 border-l-2 border-[#34d399]/30">
+                <span className="text-[#64748b]">Less: NHF</span>
+                <span className="text-[#fb7185]">-{formatCurrency(newRegime.nhfDeduction)}</span>
               </div>
-              <div className="flex justify-between items-center pl-4">
-                <span className="text-gray-600">Less: Rent Relief</span>
-                <span className="text-red-600 font-semibold">-{formatCurrency(newRegime.rentRelief || 0)}</span>
+              <div className="flex justify-between items-center pl-4 border-l-2 border-[#34d399]/30">
+                <span className="text-[#64748b]">Less: Rent Relief</span>
+                <span className="text-[#fb7185]">-{formatCurrency(newRegime.rentRelief || 0)}</span>
               </div>
-              <div className="border-t-2 border-gray-400 pt-3 flex justify-between items-center bg-yellow-50 p-3 rounded">
-                <span className="font-bold text-gray-800 text-lg">Taxable Income:</span>
-                <span className="font-bold text-lg text-blue-600">{formatCurrency(newRegime.taxableIncome)}</span>
+              <div className="flex justify-between items-center pt-3 border-t border-white/10">
+                <span className="font-semibold text-white">Taxable Income</span>
+                <span className="font-bold text-lg text-[#f0b429]">{formatCurrency(newRegime.taxableIncome)}</span>
               </div>
             </div>
           </div>
 
-          {/* Section 2: Tax Calculation */}
+          {/* Tax Brackets */}
           <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-4 pb-2 border-b-2 border-gray-300">
-              Tax Calculation (Tax Brackets)
+            <h3 className="text-sm font-semibold text-[#94a3b8] uppercase tracking-wider mb-4">
+              Tax Brackets
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {newRegime.taxBreakdown.map((bracket, index) => (
-                <div key={index} className="bg-gray-50 rounded p-3">
-                  <div className="text-sm text-gray-600 mb-1">{bracket.bracket}</div>
+                <div key={index} className="p-3 rounded-lg bg-white/5 border border-white/5">
+                  <div className="text-xs text-[#64748b] mb-1">{bracket.bracket}</div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-700">
-                      {formatCurrency(bracket.amount)} × {formatPercentage(bracket.rate * 100)}
+                    <span className="text-sm text-[#94a3b8]">
+                      {formatCurrency(bracket.amount)} x {formatPercentage(bracket.rate * 100)}
                     </span>
-                    <span className="font-bold text-blue-600">{formatCurrency(bracket.tax)}</span>
+                    <span className="font-semibold text-[#34d399]">{formatCurrency(bracket.tax)}</span>
                   </div>
                 </div>
               ))}
-              <div className="border-t-2 border-gray-400 pt-3 flex justify-between items-center bg-green-50 p-3 rounded">
-                <span className="font-bold text-gray-800 text-lg">Total Annual Tax Due:</span>
-                <span className="font-bold text-xl text-green-600">{formatCurrency(newRegime.totalTaxLiability)}</span>
+            </div>
+            <div className="mt-4 p-4 rounded-xl bg-[#34d399]/10 border border-[#34d399]/30">
+              <div className="flex justify-between items-center">
+                <span className="font-semibold text-white">Total Annual Tax</span>
+                <span className="font-bold text-2xl text-[#34d399]">{formatCurrency(newRegime.totalTaxLiability)}</span>
               </div>
             </div>
           </div>
 
-          {/* Section 3: Summary */}
-          <div className="mb-4">
-            <h3 className="text-lg font-bold text-gray-800 mb-4 pb-2 border-b-2 border-gray-300">
+          {/* Monthly Summary */}
+          <div>
+            <h3 className="text-sm font-semibold text-[#94a3b8] uppercase tracking-wider mb-4">
               Monthly Summary
             </h3>
-            <div className="space-y-3 text-base">
+            <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-gray-700">Monthly Salary:</span>
-                <span className="font-bold">{formatCurrency(newRegime.grossIncome / 12)}</span>
+                <span className="text-[#94a3b8]">Monthly Salary</span>
+                <span className="font-semibold text-white">{formatCurrency(newRegime.grossIncome / 12)}</span>
               </div>
-              <div className="flex justify-between items-center pl-4">
-                <span className="text-gray-600">Less: Pension</span>
-                <span className="text-red-600 font-semibold">-{formatCurrency(newRegime.pensionDeduction / 12)}</span>
+              <div className="flex justify-between items-center pl-4 border-l-2 border-[#34d399]/30">
+                <span className="text-[#64748b]">Less: Pension</span>
+                <span className="text-[#fb7185]">-{formatCurrency(newRegime.pensionDeduction / 12)}</span>
               </div>
-              <div className="flex justify-between items-center pl-4">
-                <span className="text-gray-600">Less: NHF</span>
-                <span className="text-red-600 font-semibold">-{formatCurrency(newRegime.nhfDeduction / 12)}</span>
+              <div className="flex justify-between items-center pl-4 border-l-2 border-[#34d399]/30">
+                <span className="text-[#64748b]">Less: NHF</span>
+                <span className="text-[#fb7185]">-{formatCurrency(newRegime.nhfDeduction / 12)}</span>
               </div>
-              <div className="flex justify-between items-center pl-4">
-                <span className="text-gray-600">Less: PAYE Tax</span>
-                <span className="text-red-600 font-semibold">-{formatCurrency(newRegime.monthlyTaxLiability)}</span>
+              <div className="flex justify-between items-center pl-4 border-l-2 border-[#34d399]/30">
+                <span className="text-[#64748b]">Less: PAYE Tax</span>
+                <span className="text-[#fb7185]">-{formatCurrency(newRegime.monthlyTaxLiability)}</span>
               </div>
-              <div className="border-t-2 border-gray-400 pt-3 flex justify-between items-center bg-green-50 p-4 rounded border-2 border-green-400">
-                <span className="font-bold text-gray-800 text-lg">Monthly Take-Home Pay:</span>
-                <span className="font-bold text-2xl text-green-600">
-                  {formatCurrency(
-                    (newRegime.grossIncome / 12) -
-                    (newRegime.pensionDeduction / 12) -
-                    (newRegime.nhfDeduction / 12) -
-                    newRegime.monthlyTaxLiability
-                  )}
-                </span>
+              <div className="mt-4 p-4 rounded-xl bg-gradient-to-r from-[#34d399]/20 to-[#059669]/20 border border-[#34d399]/40">
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold text-white">Monthly Take-Home</span>
+                  <span className="font-bold text-2xl text-[#34d399]">
+                    {formatCurrency(
+                      (newRegime.grossIncome / 12) -
+                      (newRegime.pensionDeduction / 12) -
+                      (newRegime.nhfDeduction / 12) -
+                      newRegime.monthlyTaxLiability
+                    )}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* OLD LAW COLUMN */}
-        <div className="bg-white rounded-lg shadow-xl p-6 border-2 border-red-400">
+        <div className="glass-card-coral rounded-2xl p-6 opacity-0 animate-slideInRight delay-100" style={{ animationFillMode: 'forwards' }}>
           {/* Header */}
-          <div className="bg-red-600 text-white rounded-lg p-4 mb-6 text-center">
-            <h2 className="text-2xl font-bold">PAYE Calculation</h2>
-            <p className="text-lg mt-1">Old Law (Pre-2026)</p>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#fb7185] to-[#e11d48] flex items-center justify-center">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <h2 className="font-display text-xl font-bold text-white">Old Law</h2>
+              <p className="text-sm text-[#fb7185]">Pre-2026</p>
+            </div>
           </div>
 
           {/* Income Breakdown */}
           <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-4 pb-2 border-b-2 border-gray-300">
+            <h3 className="text-sm font-semibold text-[#94a3b8] uppercase tracking-wider mb-4">
               Income Breakdown
             </h3>
-            <div className="space-y-3 text-base">
+            <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-gray-700">Annual Gross Income:</span>
-                <span className="font-bold">{formatCurrency(oldRegime.grossIncome)}</span>
+                <span className="text-[#94a3b8]">Annual Gross Income</span>
+                <span className="font-semibold text-white">{formatCurrency(oldRegime.grossIncome)}</span>
               </div>
-              <div className="flex justify-between items-center pl-4">
-                <span className="text-gray-600">Less: Pension</span>
-                <span className="text-red-600 font-semibold">-{formatCurrency(oldRegime.pensionDeduction)}</span>
+              <div className="flex justify-between items-center pl-4 border-l-2 border-[#fb7185]/30">
+                <span className="text-[#64748b]">Less: Pension</span>
+                <span className="text-[#fb7185]">-{formatCurrency(oldRegime.pensionDeduction)}</span>
               </div>
-              <div className="flex justify-between items-center pl-4">
-                <span className="text-gray-600">Less: NHF</span>
-                <span className="text-red-600 font-semibold">-{formatCurrency(oldRegime.nhfDeduction)}</span>
+              <div className="flex justify-between items-center pl-4 border-l-2 border-[#fb7185]/30">
+                <span className="text-[#64748b]">Less: NHF</span>
+                <span className="text-[#fb7185]">-{formatCurrency(oldRegime.nhfDeduction)}</span>
               </div>
-              <div className="flex justify-between items-center pl-4">
-                <span className="text-gray-600">Less: CRA Relief</span>
-                <span className="text-red-600 font-semibold">-{formatCurrency(oldRegime.consolidatedReliefAllowance || 0)}</span>
+              <div className="flex justify-between items-center pl-4 border-l-2 border-[#fb7185]/30">
+                <span className="text-[#64748b]">Less: CRA Relief</span>
+                <span className="text-[#fb7185]">-{formatCurrency(oldRegime.consolidatedReliefAllowance || 0)}</span>
               </div>
-              <div className="border-t-2 border-gray-400 pt-3 flex justify-between items-center bg-yellow-50 p-3 rounded">
-                <span className="font-bold text-gray-800 text-lg">Taxable Income:</span>
-                <span className="font-bold text-lg text-blue-600">{formatCurrency(oldRegime.taxableIncome)}</span>
+              <div className="flex justify-between items-center pt-3 border-t border-white/10">
+                <span className="font-semibold text-white">Taxable Income</span>
+                <span className="font-bold text-lg text-[#f0b429]">{formatCurrency(oldRegime.taxableIncome)}</span>
               </div>
             </div>
           </div>
 
-          {/* Tax Calculation */}
+          {/* Tax Brackets */}
           <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-4 pb-2 border-b-2 border-gray-300">
-              Tax Calculation (Tax Brackets)
+            <h3 className="text-sm font-semibold text-[#94a3b8] uppercase tracking-wider mb-4">
+              Tax Brackets
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {oldRegime.taxBreakdown.map((bracket, index) => (
-                <div key={index} className="bg-gray-50 rounded p-3">
-                  <div className="text-sm text-gray-600 mb-1">{bracket.bracket}</div>
+                <div key={index} className="p-3 rounded-lg bg-white/5 border border-white/5">
+                  <div className="text-xs text-[#64748b] mb-1">{bracket.bracket}</div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-700">
-                      {formatCurrency(bracket.amount)} × {formatPercentage(bracket.rate * 100)}
+                    <span className="text-sm text-[#94a3b8]">
+                      {formatCurrency(bracket.amount)} x {formatPercentage(bracket.rate * 100)}
                     </span>
-                    <span className="font-bold text-blue-600">{formatCurrency(bracket.tax)}</span>
+                    <span className="font-semibold text-[#fb7185]">{formatCurrency(bracket.tax)}</span>
                   </div>
                 </div>
               ))}
-              <div className="border-t-2 border-gray-400 pt-3 flex justify-between items-center bg-red-50 p-3 rounded">
-                <span className="font-bold text-gray-800 text-lg">Total Annual Tax Due:</span>
-                <span className="font-bold text-xl text-red-600">{formatCurrency(oldRegime.totalTaxLiability)}</span>
+            </div>
+            <div className="mt-4 p-4 rounded-xl bg-[#fb7185]/10 border border-[#fb7185]/30">
+              <div className="flex justify-between items-center">
+                <span className="font-semibold text-white">Total Annual Tax</span>
+                <span className="font-bold text-2xl text-[#fb7185]">{formatCurrency(oldRegime.totalTaxLiability)}</span>
               </div>
             </div>
           </div>
 
           {/* Monthly Summary */}
-          <div className="mb-4">
-            <h3 className="text-lg font-bold text-gray-800 mb-4 pb-2 border-b-2 border-gray-300">
+          <div>
+            <h3 className="text-sm font-semibold text-[#94a3b8] uppercase tracking-wider mb-4">
               Monthly Summary
             </h3>
-            <div className="space-y-3 text-base">
+            <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-gray-700">Monthly Salary:</span>
-                <span className="font-bold">{formatCurrency(oldRegime.grossIncome / 12)}</span>
+                <span className="text-[#94a3b8]">Monthly Salary</span>
+                <span className="font-semibold text-white">{formatCurrency(oldRegime.grossIncome / 12)}</span>
               </div>
-              <div className="flex justify-between items-center pl-4">
-                <span className="text-gray-600">Less: Pension</span>
-                <span className="text-red-600 font-semibold">-{formatCurrency(oldRegime.pensionDeduction / 12)}</span>
+              <div className="flex justify-between items-center pl-4 border-l-2 border-[#fb7185]/30">
+                <span className="text-[#64748b]">Less: Pension</span>
+                <span className="text-[#fb7185]">-{formatCurrency(oldRegime.pensionDeduction / 12)}</span>
               </div>
-              <div className="flex justify-between items-center pl-4">
-                <span className="text-gray-600">Less: NHF</span>
-                <span className="text-red-600 font-semibold">-{formatCurrency(oldRegime.nhfDeduction / 12)}</span>
+              <div className="flex justify-between items-center pl-4 border-l-2 border-[#fb7185]/30">
+                <span className="text-[#64748b]">Less: NHF</span>
+                <span className="text-[#fb7185]">-{formatCurrency(oldRegime.nhfDeduction / 12)}</span>
               </div>
-              <div className="flex justify-between items-center pl-4">
-                <span className="text-gray-600">Less: PAYE Tax</span>
-                <span className="text-red-600 font-semibold">-{formatCurrency(oldRegime.monthlyTaxLiability)}</span>
+              <div className="flex justify-between items-center pl-4 border-l-2 border-[#fb7185]/30">
+                <span className="text-[#64748b]">Less: PAYE Tax</span>
+                <span className="text-[#fb7185]">-{formatCurrency(oldRegime.monthlyTaxLiability)}</span>
               </div>
-              <div className="border-t-2 border-gray-400 pt-3 flex justify-between items-center bg-green-50 p-4 rounded border-2 border-green-400">
-                <span className="font-bold text-gray-800 text-lg">Monthly Take-Home Pay:</span>
-                <span className="font-bold text-2xl text-green-600">
-                  {formatCurrency(
-                    (oldRegime.grossIncome / 12) -
-                    (oldRegime.pensionDeduction / 12) -
-                    (oldRegime.nhfDeduction / 12) -
-                    oldRegime.monthlyTaxLiability
-                  )}
-                </span>
+              <div className="mt-4 p-4 rounded-xl bg-gradient-to-r from-[#34d399]/20 to-[#059669]/20 border border-[#34d399]/40">
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold text-white">Monthly Take-Home</span>
+                  <span className="font-bold text-2xl text-[#34d399]">
+                    {formatCurrency(
+                      (oldRegime.grossIncome / 12) -
+                      (oldRegime.pensionDeduction / 12) -
+                      (oldRegime.nhfDeduction / 12) -
+                      oldRegime.monthlyTaxLiability
+                    )}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Tax Comparison Section */}
-      <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg shadow-xl p-8 border-2 border-purple-400">
-        <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+      {/* Tax Comparison Summary */}
+      <div className="glass-card-gold rounded-2xl p-8 opacity-0 animate-fadeInUp delay-200" style={{ animationFillMode: 'forwards' }}>
+        <h2 className="font-display text-2xl md:text-3xl font-bold text-white text-center mb-8">
           Tax Comparison
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white rounded-lg p-6 text-center shadow-lg border-2 border-green-300">
-            <p className="text-sm font-semibold text-gray-600 mb-2">New Law (2026)</p>
-            <p className="text-3xl font-bold text-green-600 mb-1">
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          {/* New Law Card */}
+          <div className="glass-card-emerald rounded-xl p-6 text-center">
+            <p className="text-sm font-medium text-[#94a3b8] mb-2">New Law (2026)</p>
+            <p className="font-display text-3xl font-bold text-[#34d399] mb-1">
               {formatCurrency(newRegime.totalTaxLiability)}
             </p>
-            <p className="text-xs text-gray-500">Annual Tax</p>
-            <div className="mt-3 pt-3 border-t">
-              <p className="text-lg font-bold text-green-600">
+            <p className="text-xs text-[#64748b]">Annual Tax</p>
+            <div className="mt-4 pt-4 border-t border-white/10">
+              <p className="text-lg font-bold text-[#34d399]">
                 {formatCurrency(newRegime.monthlyTaxLiability)}
               </p>
-              <p className="text-xs text-gray-500">Monthly Tax</p>
+              <p className="text-xs text-[#64748b]">Monthly Tax</p>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg p-6 text-center shadow-lg border-2 border-red-300">
-            <p className="text-sm font-semibold text-gray-600 mb-2">Old Law (Pre-2026)</p>
-            <p className="text-3xl font-bold text-red-600 mb-1">
+          {/* Old Law Card */}
+          <div className="glass-card-coral rounded-xl p-6 text-center">
+            <p className="text-sm font-medium text-[#94a3b8] mb-2">Old Law (Pre-2026)</p>
+            <p className="font-display text-3xl font-bold text-[#fb7185] mb-1">
               {formatCurrency(oldRegime.totalTaxLiability)}
             </p>
-            <p className="text-xs text-gray-500">Annual Tax</p>
-            <div className="mt-3 pt-3 border-t">
-              <p className="text-lg font-bold text-red-600">
+            <p className="text-xs text-[#64748b]">Annual Tax</p>
+            <div className="mt-4 pt-4 border-t border-white/10">
+              <p className="text-lg font-bold text-[#fb7185]">
                 {formatCurrency(oldRegime.monthlyTaxLiability)}
               </p>
-              <p className="text-xs text-gray-500">Monthly Tax</p>
+              <p className="text-xs text-[#64748b]">Monthly Tax</p>
             </div>
           </div>
 
-          <div className={`rounded-lg p-6 text-center shadow-lg border-2 ${
-            savings >= 0 ? 'bg-green-100 border-green-500' : 'bg-red-100 border-red-500'
+          {/* Savings Card */}
+          <div className={`rounded-xl p-6 text-center ${
+            savings >= 0
+              ? 'bg-gradient-to-br from-[#34d399]/20 to-[#059669]/10 border border-[#34d399]/40'
+              : 'bg-gradient-to-br from-[#fb7185]/20 to-[#e11d48]/10 border border-[#fb7185]/40'
           }`}>
-            <p className="text-sm font-semibold text-gray-600 mb-2">
-              {savings >= 0 ? 'You Save with New Law!' : 'Old Law is Better'}
+            <p className="text-sm font-medium text-[#94a3b8] mb-2">
+              {savings >= 0 ? 'You Save' : 'Extra Cost'}
             </p>
-            <p className={`text-3xl font-bold mb-1 ${savings >= 0 ? 'text-green-700' : 'text-red-700'}`}>
+            <p className={`font-display text-3xl font-bold mb-1 ${savings >= 0 ? 'text-[#34d399]' : 'text-[#fb7185]'}`}>
               {formatCurrency(Math.abs(savings))}
             </p>
-            <p className="text-xs text-gray-600">Annual Savings</p>
-            <div className="mt-3 pt-3 border-t border-gray-300">
-              <p className={`text-lg font-bold ${savings >= 0 ? 'text-green-700' : 'text-red-700'}`}>
+            <p className="text-xs text-[#64748b]">Annual Savings</p>
+            <div className="mt-4 pt-4 border-t border-white/10">
+              <p className={`text-lg font-bold ${savings >= 0 ? 'text-[#34d399]' : 'text-[#fb7185]'}`}>
                 {formatCurrency(Math.abs(savings) / 12)}
               </p>
-              <p className="text-xs text-gray-600">Monthly Savings</p>
+              <p className="text-xs text-[#64748b]">Monthly Savings</p>
             </div>
-            <div className="mt-2">
+            <div className="mt-3">
               <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${
-                savings >= 0 ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'
+                savings >= 0
+                  ? 'bg-[#34d399]/20 text-[#34d399]'
+                  : 'bg-[#fb7185]/20 text-[#fb7185]'
               }`}>
                 {formatPercentage(Math.abs(savingsPercentage))} {savings >= 0 ? 'Less' : 'More'}
               </span>
@@ -284,16 +313,18 @@ export default function TaxResults({ result, originalInputs }: TaxResultsProps) 
           </div>
         </div>
 
-        {/* Recommendation */}
-        <div className={`rounded-lg p-6 text-center ${
-          savings >= 0 ? 'bg-green-600' : 'bg-red-600'
+        {/* Recommendation Banner */}
+        <div className={`rounded-xl p-6 text-center ${
+          savings >= 0
+            ? 'bg-gradient-to-r from-[#34d399] to-[#059669]'
+            : 'bg-gradient-to-r from-[#fb7185] to-[#e11d48]'
         }`}>
-          <p className="text-white text-xl font-bold">
+          <p className="font-display text-xl font-bold text-white">
             {savings >= 0
-              ? '✓ The New Tax Law (2026) is better for you!'
-              : '✗ The Old Tax Law (Pre-2026) was better for you'}
+              ? 'The New Tax Law (2026) is better for you!'
+              : 'The Old Tax Law (Pre-2026) was better for you'}
           </p>
-          <p className="text-white text-sm mt-2">
+          <p className="text-white/80 text-sm mt-2">
             {savings >= 0
               ? `You will save ${formatCurrency(Math.abs(savings))} annually (${formatCurrency(Math.abs(savings) / 12)} per month)`
               : `You will pay ${formatCurrency(Math.abs(savings))} more annually (${formatCurrency(Math.abs(savings) / 12)} per month)`}
