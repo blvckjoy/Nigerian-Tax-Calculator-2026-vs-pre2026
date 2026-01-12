@@ -199,6 +199,7 @@ function App() {
             </div>
           </div>
         </footer>
+        <Analytics />
       </div>
       <Analytics />
     </div>
